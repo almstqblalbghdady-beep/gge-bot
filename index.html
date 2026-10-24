@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GGE Empire Bot Plus v4</title>
+<style>
+:root{--bg:#080f1c;--panel:#111c2d;--line:#293d57;--txt:#eef5ff;--muted:#9aacc5;--cyan:#24d7ce;--green:#36d49a;--gold:#f4c15d;--red:#ff7486}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% 0,#173657 0,transparent 38%),var(--bg);color:var(--txt);font:14px Tahoma,Arial,sans-serif}
+header{padding:20px clamp(14px,4vw,36px);background:#0b1423;border-bottom:1px solid var(--line)}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(135deg,var(--cyan),#548bff);color:#071322;font-weight:bold;font-size:24px}h1{font-size:22px;margin:0}header p{font-size:12px;color:var(--muted);margin:6px 0 0}.badge{border:1px solid #285e4c;color:var(--green);border-radius:30px;padding:8px 11px;font-size:12px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.tab,button{font:inherit;cursor:pointer;color:var(--txt);border:1px solid #344d6c;background:#1a2e49;padding:10px 13px;border-radius:9px}.tab{background:transparent;border-color:transparent;color:var(--muted)}.tab.active{background:#123b45;border-color:#16818a;color:#8cf8f0}button:hover{filter:brightness(1.12)}
+main{max-width:1200px;margin:auto;padding:22px clamp(13px,3vw,28px)}.notice{background:#292318;border:1px solid #66512a;color:#f6dfa3;padding:12px;border-radius:10px;line-height:1.8;margin-bottom:16px}.page{display:none!important}.page.active{display:block!important}.heading{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:15px}.heading h2{margin:0;font-size:22px}.muted,.sub{color:var(--muted)}.sub{font-size:12px;margin-top:6px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{background:linear-gradient(145deg,var(--panel),#0e1726);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}.metric{display:flex;justify-content:space-between;align-items:center;color:var(--muted)}.ico{width:40px;height:40px;display:grid;place-items:center;background:#213751;border-radius:12px;font-size:21px}.num{font-size:27px;font-weight:bold;margin-top:12px}.card h3{font-size:16px;margin:0 0 14px}.field{display:flex;flex-direction:column;gap:7px;margin-bottom:12px}label{font-size:12px;color:#c9d8eb}input,select,textarea{width:100%;font:inherit;color:var(--txt);background:#091321;border:1px solid #334a65;border-radius:8px;padding:11px}textarea{min-height:75px;resize:vertical}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.primary{background:#087c88;border-color:#1ab7bc}.green{background:#174d3d;border-color:#2b8061}.gold{background:#49391c;border-color:#80632a}.red{background:#4a2630;border-color:#823e4c}.full{width:100%}.hint{font-size:12px;color:var(--muted);line-height:1.8}.status{padding:10px;background:#0a1523;border-radius:8px;color:var(--gold);font-size:12px;line-height:1.7}.eventgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.eventbtn{display:flex;align-items:center;gap:10px;text-align:right;background:#101d2e}.eventbtn strong{display:block}.eventbtn small{display:block;color:var(--muted);margin-top:5px}.art{font-size:28px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:600px}th,td{text-align:right;padding:10px;border-bottom:1px solid var(--line);font-size:12px}th{color:var(--muted);font-weight:normal}.pill{display:inline-block;padding:5px 8px;border-radius:20px;background:#233750;font-size:11px}.pill.running{background:#164634;color:#9af2c9}.pill.paused{background:#4b3a1d;color:#ffe09a}.empty{text-align:center;color:var(--muted);padding:20px}.log{white-space:pre-wrap;max-height:250px;overflow:auto;color:#c2d2e6;line-height:1.8;font-size:12px}.footer{text-align:center;color:#7488a4;padding:20px;font-size:11px}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}.eventgrid{grid-template-columns:1fr}}@media(max-width:500px){.grid{grid-template-columns:1fr}header{padding:15px}}
+</style>
+<style>
+#accessGate{position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse at 50% 0,#183d5d,#07101d 70%);display:flex;align-items:center;justify-content:center;padding:18px;overflow:auto}
+#accessGate .gatebox{width:min(980px,100%);background:#101c2d;border:1px solid #304965;border-radius:20px;padding:clamp(18px,4vw,32px);box-shadow:0 24px 80px #0009}
+#accessGate h2{margin:0 0 8px;font-size:25px}#accessGate .muted{color:#9aacc5;line-height:1.8}
+.gategrid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-top:18px}
+.gatepanel{background:#0b1524;border:1px solid #293d57;border-radius:14px;padding:18px}
+.gatefield{display:flex;flex-direction:column;gap:7px;margin:12px 0}.gatefield label{font-size:12px;color:#c9d8eb}
+.gatefield input{width:100%;font:inherit;color:#eef5ff;background:#091321;border:1px solid #334a65;border-radius:8px;padding:12px}
+.gatebuttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.gatebuttons button{flex:1}
+.gateplans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.gateplan{border:1px solid #304965;background:#101d2e;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.gateplan strong{font-size:15px}.gateplan .price{font-size:22px;color:#f4c15d;font-weight:bold}.gateplan small{color:#9aacc5;line-height:1.7}
+.gateplan button{margin-top:auto}.gatewarning{margin-top:12px;padding:10px;border-radius:9px;background:#292318;border:1px solid #66512a;color:#f6dfa3;line-height:1.8;font-size:12px}
+#gateMessage{min-height:20px;color:#ffb6c0;font-size:12px;line-height:1.7;margin-top:8px}
+@media(max-width:720px){.gategrid{grid-template-columns:1fr}.gateplans{grid-template-columns:1fr}}
+</style>
+
+<style>
+#logoutBtn{border-color:#74414c;background:#321d2a;color:#ffd9df}
+#activityLog .logitem{border:1px solid #293d57;background:#0b1524;border-radius:8px;padding:8px 10px;line-height:1.6}
+#activityLog .logtime{color:#8cf8f0;font-size:11px;margin-left:8px}
+.eventgrid{grid-template-columns:repeat(auto-fit,minmax(145px,1fr))}
+</style></head>
+<body>
+
+<div id="accessGate" role="dialog" aria-modal="true" aria-label="تسجيل الدخول والاشتراك">
+ <div class="gatebox">
+  <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+   <div><div style="color:#24d7ce;font-weight:bold;font-size:12px;letter-spacing:1px">GGE EMPIRE PLUS</div><h2>أهلاً بك في لوحة التحكم</h2><div class="muted">سجّل دخولك أو أنشئ حسابًا تجريبيًا، ثم اختر مستوى العضوية.</div></div>
+   <span class="badge">نسخة تجريبية محلية</span>
+  </div>
+  <div class="gategrid">
+   <section class="gatepanel">
+    <h3 style="margin:0 0 8px">تسجيل الدخول / إنشاء حساب</h3>
+    <div class="gatefield"><label for="gateUsername">اسم المستخدم</label><input id="gateUsername" maxlength="40" autocomplete="username" placeholder="اكتب اسمًا للوحة"></div>
+    <div class="gatefield"><label for="gatePassword">كلمة مرور تجريبية</label><input id="gatePassword" type="password" autocomplete="current-password" placeholder="أدخل كلمة مرور لهذه التجربة"></div>
+    <div class="gatebuttons"><button type="button" class="primary" id="gateLogin">تسجيل الدخول</button><button type="button" class="green" id="gateRegister">إنشاء حساب</button></div>
+    <div id="gateMessage" aria-live="polite"></div>
+    <div class="gatewarning"><b>مهم:</b> هذا نموذج يعمل داخل المتصفح فقط. لا تدخل كلمة مرور Goodgame Empire أو أي كلمة مرور تستخدمها في مواقع أخرى. كلمة المرور التجريبية لا تُحفظ ولا تُرسل، والحساب لا ينتقل إلى جهاز آخر.</div>
+   </section>
+   <section class="gatepanel">
+    <h3 style="margin:0 0 8px">العضوية والاشتراك</h3>
+    <div class="muted" style="font-size:12px">اختر مستوى للمعاينة. التفعيل هنا تجريبي ولا توجد عملية دفع حقيقية.</div>
+    <div class="gateplans">
+     <div class="gateplan"><strong>اشتراك دائم</strong><div class="price">تجريبي</div><small>مدة العضوية: دائم<br>خطط ومؤقتات محلية<br>سجل نشاط</small><button type="button" data-membership="دائم (تجريبي)">اختيار</button></div>
+     <div class="gateplan"><strong>اشتراك شهر</strong><div class="price">تجريبي</div><small>مدة العضوية: 30 يومًا للعرض<br>لوحة الخطط<br>سجل نشاط</small><button type="button" class="primary" data-membership="شهري (تجريبي)">اختيار</button></div>
+     <div class="gateplan"><strong>فترة تجريبية</strong><div class="price">مجاني</div><small>مدة العضوية: 7 أيام للعرض<br>مؤقتات محلية<br>نسخ احتياطي</small><button type="button" class="gold" data-membership="تجريبي 7 أيام">اختيار</button></div>
+    </div>
+    <div class="gatewarning">الاشتراكات المدفوعة الحقيقية تحتاج خادمًا آمنًا ومزوّد دفع موثوقًا وسياسة خصوصية. لا يمكن تفعيل دفع حقيقي من ملف HTML محلي وحده.</div>
+   </section>
+  </div>
+ </div>
+</div>
+
+<header><div class="top"><div class="brand"><div class="logo">G</div><div><h1>GGE Empire Bot <span style="color:var(--cyan)">PLUS</span></h1><p>إدارة خطط الأحداث — نسخة محلية قابلة للاختبار</p></div></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="badge" id="membershipBadge">● عضوية تجريبية · لا يوجد اتصال باللعبة</span><button type="button" id="logoutBtn">تسجيل الخروج</button></div></div>
+<nav id="mainNav"><button type="button" class="tab active" data-page="home">الرئيسية</button><button type="button" class="tab" data-page="events">الأحداث والهجمات</button><button type="button" class="tab" data-page="account">الحساب والسيرفر</button><button type="button" class="tab" data-page="security">رمز الأمان</button><button type="button" class="tab" data-page="support">الدعم</button><button type="button" class="tab" data-page="backup">النسخ الاحتياطي</button></nav></header>
+<main>
+<div class="notice"><b>الأمان:</b> لا تدخل كلمة مرور Goodgame Empire في هذه الصفحة. هذه نسخة HTML محلية؛ لا يمكنها تسجيل الدخول أو إرسال هجمات. اسم الحساب والسيرفر إعدادات عرض فقط، ورمز الأمان هنا محلي وليس مصادقة حقيقية.</div>
+<section class="page active" id="home"><div class="heading"><div><h2>لوحة القيادة</h2><div class="sub">ملخص خططك المحفوظة في المتصفح</div></div><button type="button" class="primary" data-goto="events">＋ إنشاء خطة</button></div>
+<div class="grid"><div class="card"><div class="metric">إجمالي الخطط <span class="ico">⚔️</span></div><div class="num" id="total">0</div></div><div class="card"><div class="metric">مؤقتات نشطة <span class="ico">⏱️</span></div><div class="num" id="running">0</div></div><div class="card"><div class="metric">مكتملة <span class="ico">✓</span></div><div class="num" id="done">0</div></div><div class="card"><div class="metric">السيرفر <span class="ico">🌐</span></div><div class="num" id="serverLabel" style="font-size:18px">غير محدد</div></div></div>
+<div class="two" style="margin-top:12px"><div class="card"><h3>الأحداث</h3><div class="eventgrid"><button type="button" class="eventbtn" data-event="البدو"><span class="art">🏹</span><span><strong>البدو</strong><small>فتح مخطط الحدث</small></span></button><button type="button" class="eventbtn" data-event="خان النصر"><span class="art">🏰</span><span><strong>خان النصر</strong><small>فتح مخطط الحدث</small></span></button><button type="button" class="eventbtn" data-event="العواصف"><span class="art">🌪️</span><span><strong>العواصف</strong><small>فتح مخطط الحدث</small></span></button><button type="button" class="eventbtn" data-event="الساموراي"><span class="art">🥷</span><span><strong>الساموراي</strong><small>فتح مخطط الحدث</small></span></button><button type="button" class="eventbtn" data-event="الصحراء"><span class="art">🏜️</span><span><strong>الصحراء</strong><small>فتح مخطط الحدث</small></span></button></div></div><div class="card"><h3>حالة الاتصال</h3><div class="status">غير متصل باللعبة — المؤقتات والخطط تعمل محليًا فقط.</div><h3 style="margin-top:16px">آخر النشاط</h3><div class="log" id="recent">لا يوجد نشاط.</div></div></div><div class="two" style="margin-top:12px">
+ <div class="card"><h3>اختصارات تفاعلية</h3><p class="hint">الأزرار تغيّر واجهة التخطيط وتسجل الإجراء محليًا، ولا تتحكم مباشرةً في اللعبة.</p>
+ <div class="actions"><button type="button" id="openRoomBtn">🏰 غرفة الأحداث</button><button type="button" id="openSecurityBtn">🛡️ رموز الأمان</button><button type="button" id="refreshLogBtn">↻ تحديث السجل</button></div>
+ <div id="shortcutStatus" class="status" style="margin-top:10px">جاهز — اختر أحد الاختصارات.</div></div>
+ <div class="card"><div class="heading"><div><h3>سجل النشاط المباشر</h3><div class="sub">يسجل ضغطات الأزرار داخل هذه الصفحة</div></div><button type="button" id="clearLogBtn">مسح السجل</button></div>
+ <div id="activityLog" aria-live="polite" style="max-height:220px;overflow:auto;display:grid;gap:8px"><div class="hint">لم يتم تسجيل أي نشاط بعد.</div></div></div>
+</div></section>
+<section class="page" id="events"><div class="heading"><div><h2>الأحداث والهجمات</h2><div class="sub">أضف خطة وراقب عدادها المحلي</div></div></div><div class="two"><div class="card"><h3>خطة جديدة</h3><div class="field"><label for="eventType">الحدث</label><select id="eventType"><option>البدو</option><option>خان النصر</option><option>العواصف</option><option>الساموراي</option><option>الصحراء</option></select></div><div class="field"><label for="target">اسم الهدف أو الخطة</label><input id="target" placeholder="مثال: الجولة الأولى"></div><div class="field"><label for="minutes">المدة بالدقائق</label><input id="minutes" type="number" min="1" max="10080" value="30"></div><div class="field"><label for="troops">ملاحظات القوات</label><input id="troops" placeholder="ملاحظات فقط، لا يتم إرسال قوات"></div><div class="field"><label for="notes">ملاحظات</label><textarea id="notes"></textarea></div><div class="actions"><button type="button" class="primary" id="addRun">حفظ وتشغيل المؤقت</button><button type="button" id="addPlan">حفظ الخطة</button></div></div><div class="card"><h3>فلترة الخطط</h3><div class="field"><label for="filterEvent">الحدث</label><select id="filterEvent"><option value="all">كل الأحداث</option><option>البدو</option><option>خان النصر</option><option>العواصف</option><option>الساموراي</option><option>الصحراء</option></select></div><p class="hint">المؤقت للمتابعة فقط، ولا يطلق هجومًا داخل اللعبة.</p><div class="status" id="count">0 خطة</div></div></div><div class="card" style="margin-top:12px"><h3>الخطط</h3><div class="tablewrap"><table><thead><tr><th>الحدث</th><th>الهدف</th><th>الحالة</th><th>الوقت المتبقي</th><th>الإجراءات</th></tr></thead><tbody id="rows"></tbody></table></div></div></section>
+<section class="page" id="account"><div class="heading"><div><h2>اسم الحساب والسيرفر</h2><div class="sub">إعدادات عرض محلية وليست تسجيل دخول</div></div></div><div class="two"><div class="card"><h3>إعدادات الحساب</h3><div class="field"><label for="accountName">اسم العرض / اسم الحساب</label><input id="accountName" placeholder="اسم يظهر في لوحة التحكم"></div><div class="field"><label for="server">السيرفر أو العالم</label><select id="server"><option value="">اختر السيرفر يدويًا</option><option>International 1</option><option>International 2</option><option>Germany</option><option>France</option><option>United Kingdom</option><option>United States</option><option>Poland</option><option>Spain</option><option>Italy</option><option>Other / غير ذلك</option></select></div><button type="button" class="primary" id="saveAccount">حفظ الإعدادات</button><p class="hint">هذه قائمة أمثلة وليست قائمة مؤكدة بكل عوالم اللعبة. لا يوجد اتصال أو تحقق من السيرفر.</p></div><div class="card"><h3>بيانات تسجيل الدخول</h3><div class="status">لأمان حسابك، لا توجد خانة لحفظ كلمة مرور اللعبة. لا ترسل كلمة المرور إلى أي ملف HTML أو شخص آخر.</div><p class="hint">تسجيل دخول فعلي يحتاج تكاملًا رسميًا وآمنًا، وليس محاكاة نموذج داخل الصفحة.</p></div></div></section>
+<section class="page" id="security"><div class="heading"><div><h2>رمز الأمان</h2><div class="sub">مولّد رمز محلي للتجربة فقط</div></div></div><div class="two"><div class="card"><h3>إنشاء رمز عشوائي</h3><p class="hint">يمكن استخدامه كمعرّف تجريبي. لا يحمي ملف HTML ولا يضيف أعضاء تلقائيًا.</p><div class="field"><label for="tokenLength">طول الرمز</label><select id="tokenLength"><option>16</option><option selected>24</option><option>32</option></select></div><div class="field"><label for="tokenOutput">الرمز الناتج</label><input id="tokenOutput" readonly placeholder="اضغط توليد الرمز"></div><div class="actions"><button type="button" class="primary" id="generateToken">توليد رمز</button><button type="button" id="copyToken">نسخ الرمز</button></div></div><div class="card"><h3>رمز انضمام حقيقي؟</h3><p class="hint">دعوات الأعضاء الآمنة تحتاج خادمًا خلفيًا للتحقق من الرمز، وتحديد الصلاحيات، وانتهاء الصلاحية. رمز مخزن داخل HTML يمكن لأي شخص فتح الملف وقراءته، لذلك لا تعتبره سرًا.</p></div></div></section>
+<section class="page" id="support"><div class="heading"><div><h2>الدعم</h2><div class="sub">تسجيل مشكلة محليًا</div></div></div><div class="two"><div class="card"><h3>استكشاف الأخطاء</h3><p class="hint">إذا لم يتغير القسم عند الضغط على تبويب، حدّث الصفحة وافتح الملف index.html من جديد. تم ربط التنقل في هذا الإصدار بأحداث JavaScript مباشرة.</p></div><div class="card"><h3>إرسال تقرير محلي</h3><div class="field"><label for="issue">وصف المشكلة</label><textarea id="issue" placeholder="اكتب المشكلة التي واجهتك"></textarea></div><button type="button" class="primary" id="saveIssue">حفظ التقرير</button><p class="hint">لن يُرسل أي شيء إلى الإنترنت.</p></div></div><div class="card" style="margin-top:12px"><h3>سجل النشاط</h3><div id="logs" class="log"></div><button type="button" class="red" id="clearLogs" style="margin-top:10px">مسح السجل</button></div></section>
+<section class="page" id="backup"><div class="heading"><div><h2>النسخ الاحتياطي</h2><div class="sub">حفظ الخطط والإعدادات محليًا</div></div></div><div class="two"><div class="card"><h3>تصدير</h3><p class="hint">تنزيل نسخة JSON من بيانات اللوحة.</p><button type="button" class="primary" id="export">تنزيل النسخة</button></div><div class="card"><h3>استيراد</h3><div class="field"><label for="importFile">ملف JSON</label><input type="file" id="importFile" accept=".json,application/json"></div><button type="button" id="import">استعادة النسخة</button></div></div><div class="card" style="margin-top:12px"><h3>إعادة ضبط البيانات</h3><button type="button" class="red" id="reset">حذف بيانات اللوحة</button></div></section>
+<div class="footer">GGE Empire Bot Plus v2 · أداة محلية غير رسمية · لا تتصل باللعبة</div></main>
+<script>
+(function(){
+'use strict';
+var KEY='ggePlusV2Data';
+function fresh(){return {plans:[],logs:['تم فتح لوحة التحكم المحلية.'],accountName:'',server:''};}
+function load(){try{var x=JSON.parse(localStorage.getItem(KEY));if(x&&Array.isArray(x.plans)&&Array.isArray(x.logs))return x;}catch(e){}return fresh();}
+var db=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db));}catch(e){}}
+function esc(s){return String(s||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function log(s){db.logs.unshift(new Date().toLocaleString()+' — '+s);db.logs=db.logs.slice(0,100);save();renderLogs();}
+function show(id){var pages=document.querySelectorAll('.page'),tabs=document.querySelectorAll('.tab');for(var i=0;i<pages.length;i++)pages[i].classList.toggle('active',pages[i].id===id);for(var j=0;j<tabs.length;j++)tabs[j].classList.toggle('active',tabs[j].getAttribute('data-page')===id);if(id==='events')renderPlans();}
+document.getElementById('mainNav').addEventListener('click',function(e){var b=e.target.closest('button[data-page]');if(b)show(b.getAttribute('data-page'));});
+document.querySelectorAll('[data-goto]').forEach(function(b){b.addEventListener('click',function(){show(b.getAttribute('data-goto'));});});
+document.querySelectorAll('[data-event]').forEach(function(b){b.addEventListener('click',function(){document.getElementById('eventType').value=b.getAttribute('data-event');document.getElementById('filterEvent').value=b.getAttribute('data-event');show('events');});});
+function add(run){var ev=document.getElementById('eventType').value,target=document.getElementById('target').value.trim(),mins=Number(document.getElementById('minutes').value);if(!target){alert('اكتب اسم الهدف أو الخطة أولًا.');return;}if(!mins||mins<1||mins>10080){alert('أدخل مدة من دقيقة إلى 7 أيام.');return;}db.plans.unshift({id:Date.now()+Math.floor(Math.random()*999),event:ev,target:target,seconds:Math.floor(mins*60),status:run?'running':'ready',troops:document.getElementById('troops').value.trim(),notes:document.getElementById('notes').value.trim()});document.getElementById('target').value='';document.getElementById('troops').value='';document.getElementById('notes').value='';save();log('إضافة خطة '+ev+' — '+target);renderAll();}
+document.getElementById('addRun').addEventListener('click',function(){add(true);});document.getElementById('addPlan').addEventListener('click',function(){add(false);});document.getElementById('filterEvent').addEventListener('change',renderPlans);
+function fmt(n){n=Math.max(0,Math.floor(n));return ('0'+Math.floor(n/3600)).slice(-2)+':'+('0'+Math.floor(n%3600/60)).slice(-2)+':'+('0'+n%60).slice(-2);}
+function state(s){return {running:'قيد التشغيل',paused:'متوقفة مؤقتًا',ready:'جاهزة',done:'مكتملة'}[s]||s;}
+window.ggeAction=function(id,a){var p=db.plans.filter(function(x){return x.id===id;})[0];if(!p)return;if(a==='delete'){if(!confirm('حذف الخطة؟'))return;db.plans=db.plans.filter(function(x){return x.id!==id;});log('حذف خطة '+p.target);}else if(a==='start'){p.status='running';log('تشغيل المؤقت المحلي '+p.target);}else if(a==='pause'){p.status='paused';log('إيقاف المؤقت '+p.target);}else if(a==='done'){p.status='done';p.seconds=0;log('إنهاء الخطة '+p.target);}save();renderAll();};
+function renderPlans(){var f=document.getElementById('filterEvent').value,arr=db.plans.filter(function(p){return f==='all'||p.event===f;});document.getElementById('count').textContent=arr.length+' خطة';var body=document.getElementById('rows');if(!arr.length){body.innerHTML='<tr><td colspan="5" class="empty">لا توجد خطط. أنشئ أول خطة من النموذج.</td></tr>';return;}body.innerHTML=arr.map(function(p){var buttons='';if(p.status==='ready'||p.status==='paused')buttons+='<button class="green" onclick="ggeAction('+p.id+',\\'start\\')">تشغيل</button> ';if(p.status==='running')buttons+='<button class="gold" onclick="ggeAction('+p.id+',\\'pause\\')">إيقاف</button> ';if(p.status!=='done')buttons+='<button onclick="ggeAction('+p.id+',\\'done\\')">إنهاء</button> ';buttons+='<button class="red" onclick="ggeAction('+p.id+',\\'delete\\')">حذف</button>';return '<tr><td>'+esc(p.event)+'</td><td><b>'+esc(p.target)+'</b><div class="sub">'+esc(p.troops)+' '+esc(p.notes)+'</div></td><td><span class="pill '+p.status+'">'+state(p.status)+'</span></td><td><span style="direction:ltr;display:inline-block;color:var(--cyan)">'+fmt(p.seconds)+'</span></td><td><div class="actions">'+buttons+'</div></td></tr>';}).join('');}
+function renderLogs(){var s=db.logs.join('\n')||'لا يوجد نشاط.';var a=document.getElementById('logs'),b=document.getElementById('recent');if(a)a.textContent=s;if(b)b.textContent=db.logs.slice(0,5).join('\n')||'لا يوجد نشاط.';}
+function renderAll(){document.getElementById('total').textContent=db.plans.length;document.getElementById('running').textContent=db.plans.filter(function(p){return p.status==='running';}).length;document.getElementById('done').textContent=db.plans.filter(function(p){return p.status==='done';}).length;document.getElementById('serverLabel').textContent=db.server||'غير محدد';document.getElementById('accountName').value=db.accountName||'';document.getElementById('server').value=db.server||'';renderPlans();renderLogs();}
+document.getElementById('saveAccount').addEventListener('click',function(){db.accountName=document.getElementById('accountName').value.trim();db.server=document.getElementById('server').value;save();log('حفظ اسم العرض والسيرفر محليًا.');renderAll();alert('تم حفظ الإعدادات محليًا فقط؛ لم يتم تسجيل الدخول للعبة.');});
+document.getElementById('generateToken').addEventListener('click',function(){var n=Number(document.getElementById('tokenLength').value),chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789-_';var out='';try{var ar=new Uint8Array(n);if(window.crypto&&window.crypto.getRandomValues){window.crypto.getRandomValues(ar);for(var i=0;i<n;i++)out+=chars.charAt(ar[i]%chars.length);}else{for(var j=0;j<n;j++)out+=chars.charAt(Math.floor(Math.random()*chars.length));}}catch(e){for(var k=0;k<n;k++)out+=chars.charAt(Math.floor(Math.random()*chars.length));}document.getElementById('tokenOutput').value=out;});
+document.getElementById('copyToken').addEventListener('click',function(){var x=document.getElementById('tokenOutput');if(!x.value){alert('ولّد رمزًا أولًا.');return;}x.select();try{document.execCommand('copy');alert('تم نسخ الرمز إن كان المتصفح يسمح بذلك.');}catch(e){alert('حدد الرمز وانسخه يدويًا.');}});
+document.getElementById('saveIssue').addEventListener('click',function(){var s=document.getElementById('issue').value.trim();if(!s){alert('اكتب وصف المشكلة.');return;}log('تقرير دعم محلي: '+s);document.getElementById('issue').value='';alert('حُفظ التقرير داخل سجل اللوحة فقط.');});
+document.getElementById('clearLogs').addEventListener('click',function(){if(confirm('مسح سجل النشاط؟')){db.logs=[];save();renderLogs();}});
+document.getElementById('export').addEventListener('click',function(){var blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='gge-empire-bot-backup.json';document.body.appendChild(a);a.click();a.parentNode.removeChild(a);setTimeout(function(){URL.revokeObjectURL(url);},1000);log('تصدير نسخة احتياطية.');});
+document.getElementById('import').addEventListener('click',function(){var f=document.getElementById('importFile').files[0];if(!f){alert('اختر ملف JSON.');return;}var r=new FileReader();r.onload=function(){try{var x=JSON.parse(r.result);if(!Array.isArray(x.plans)||!Array.isArray(x.logs))throw 1;db=x;save();renderAll();log('استعادة نسخة احتياطية.');alert('تم الاستيراد.');}catch(e){alert('الملف غير صالح.');}};r.readAsText(f);});
+document.getElementById('reset').addEventListener('click',function(){if(confirm('حذف جميع بيانات اللوحة؟')){db=fresh();save();renderAll();log('إعادة ضبط البيانات.');}});
+function tick(){var changed=false;db.plans.forEach(function(p){if(p.status==='running'&&p.seconds>0){p.seconds--;changed=true;if(p.seconds===0){p.status='done';db.logs.unshift(new Date().toLocaleString()+' — انتهى المؤقت المحلي: '+p.target);}}});if(changed){save();renderAll();}}
+renderAll();setInterval(tick,1000);
+})();
+</script>
+<script>
+(function(){
+ 'use strict';
+ var activeUser = '';
+ var selectedMembership = 'مجاني';
+ var gate = document.getElementById('accessGate');
+ var msg = document.getElementById('gateMessage');
+ function say(t, ok){ msg.style.color = ok ? '#9af2c9' : '#ffb6c0'; msg.textContent=t; }
+ function username(){ return document.getElementById('gateUsername').value.trim(); }
+ function password(){ return document.getElementById('gatePassword').value; }
+ function enter(){ 
+   if(!activeUser){say('اكتب اسم المستخدم ثم أنشئ حسابًا تجريبيًا أو سجّل الدخول.');return;}
+   gate.style.display='none';
+   document.getElementById('membershipBadge').textContent='● '+selectedMembership+' · وضع تجريبي محلي';
+   var banner=document.createElement('div');
+   banner.className='notice';
+   banner.id='demoMembershipNotice';
+   banner.innerHTML='<b>مرحبًا '+activeUser.replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];})+'</b> — العضوية الحالية: '+selectedMembership+'. تسجيل الدخول والعضوية تجريبيان ومحليان فقط.';
+   var main=document.querySelector('main');
+   if(main && !document.getElementById('demoMembershipNotice')) main.insertBefore(banner,main.firstChild);
+ }
+ document.getElementById('gateRegister').addEventListener('click',function(){
+   var u=username(),p=password();
+   if(u.length<3){say('اسم المستخدم لازم يكون 3 أحرف على الأقل.');return;}
+   if(p.length<6){say('استخدم كلمة مرور تجريبية من 6 أحرف على الأقل.');return;}
+   activeUser=u;
+   say('تم إنشاء جلسة تجريبية لهذا التبويب فقط. لن تُحفظ كلمة المرور.',true);
+   enter();
+ });
+ document.getElementById('gateLogin').addEventListener('click',function(){
+   var u=username(),p=password();
+   if(u.length<3 || p.length<6){say('اكتب اسم مستخدم وكلمة مرور تجريبية من 6 أحرف على الأقل.');return;}
+   // This offline prototype cannot authenticate stored accounts; it starts a temporary demo session only.
+   activeUser=u;
+   say('تم بدء جلسة تجريبية محلية. لا يوجد تحقق من خادم.',true);
+   enter();
+ });
+ document.querySelectorAll('[data-membership]').forEach(function(b){
+   b.addEventListener('click',function(){
+     selectedMembership=b.getAttribute('data-membership');
+     document.querySelectorAll('[data-membership]').forEach(function(x){x.style.outline='';});
+     b.style.outline='2px solid #24d7ce';
+     say('تم اختيار عضوية '+selectedMembership+' للمعاينة. سجّل الدخول أو أنشئ حسابًا تجريبيًا للمتابعة.',true);
+   });
+ });
+})();
+</script>
+
+
+<script>
+(function(){
+ 'use strict';
+ var logBox=document.getElementById('activityLog');
+ var logItems=[];
+ function safe(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+ function log(action){
+   var now=new Date();
+   var time=now.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+   logItems.unshift({time:time,action:action});
+   if(logItems.length>60)logItems.length=60;
+   renderLog();
+ }
+ function renderLog(){
+   if(!logBox)return;
+   if(!logItems.length){logBox.innerHTML='<div class="hint">لم يتم تسجيل أي نشاط بعد.</div>';return;}
+   logBox.innerHTML=logItems.map(function(x){return '<div class="logitem"><span class="logtime">'+safe(x.time)+'</span>'+safe(x.action)+'</div>';}).join('');
+ }
+ function go(page){
+   var tab=document.querySelector('[data-page="'+page+'"]');
+   if(tab)tab.click();
+ }
+ // Event buttons select event and route to planning page
+ document.querySelectorAll('[data-event]').forEach(function(btn){
+   btn.addEventListener('click',function(){
+     var ev=btn.getAttribute('data-event');
+     var sel=document.getElementById('eventType');
+     if(sel){var found=false;Array.from(sel.options).forEach(function(o){if(o.text===ev){sel.value=o.value;found=true;}});if(!found){var o=document.createElement('option');o.text=ev;sel.add(o);sel.value=ev;}}
+     var target=document.getElementById('target');if(target && !target.value)target.value='خطة '+ev;
+     log('تم اختيار حدث: '+ev+' (تخطيط محلي)');
+     go('events');
+   });
+ });
+ document.getElementById('openRoomBtn')?.addEventListener('click',function(){
+   var s=document.getElementById('shortcutStatus');if(s)s.textContent='غرفة الأحداث جاهزة: اختر حدثًا من الصفحة الرئيسية لفتح مخططه.';
+   log('فتح اختصار غرفة الأحداث');go('events');
+ });
+ document.getElementById('openSecurityBtn')?.addEventListener('click',function(){
+   var s=document.getElementById('shortcutStatus');if(s)s.textContent='صفحة رموز الأمان مفتوحة. يمكنك توليد رمز تجريبي.';
+   log('فتح اختصار رموز الأمان');go('security');
+ });
+ document.getElementById('refreshLogBtn')?.addEventListener('click',function(){renderLog();log('تم تحديث سجل النشاط');});
+ document.getElementById('clearLogBtn')?.addEventListener('click',function(){logItems=[];renderLog();log('تم مسح السجل');});
+ document.getElementById('logoutBtn')?.addEventListener('click',function(){
+   var gate=document.getElementById('accessGate');
+   if(gate)gate.style.display='flex';
+   var user=document.getElementById('gateUsername');var pass=document.getElementById('gatePassword');
+   if(pass)pass.value='';
+   var msg=document.getElementById('gateMessage');if(msg){msg.style.color='#9af2c9';msg.textContent='تم إنهاء الجلسة التجريبية في هذه الصفحة.';}
+   var banner=document.getElementById('demoMembershipNotice');if(banner)banner.remove();
+   log('تسجيل الخروج من الجلسة التجريبية');
+ });
+ // Log major interactive controls without interfering with their existing behavior.
+ document.querySelectorAll('#security button, #events button, #account button, #backup button').forEach(function(btn){
+   btn.addEventListener('click',function(){var label=(btn.innerText||btn.textContent||'زر').trim().replace(/\s+/g,' ').slice(0,90);if(label)log('ضغط زر: '+label);});
+ });
+ document.querySelectorAll('[data-membership]').forEach(function(btn){
+   btn.addEventListener('click',function(){log('اختيار العضوية: '+btn.getAttribute('data-membership'));});
+ });
+ // Keep event selectors synchronized for manual selection too.
+ document.getElementById('eventType')?.addEventListener('change',function(){log('تغيير الحدث إلى: '+this.value);});
+})();
+</script>
+</body></html>
